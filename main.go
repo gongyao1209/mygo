@@ -68,5 +68,14 @@ func main() {
 	router.POST("/test2", func2)
 	router.POST("/test3", func3)
 
+	//url 族群
+	group1 := router.Group("/g1")
+	group1.GET("/test4", func1)
+
+	//重定向
+	router.GET("test5", func(c *gin.Context) {
+		c.Redirect(http.StatusMovedPermanently, "https://www.baidu.com/")
+	})
+
 	router.Run(":8888")
 }
