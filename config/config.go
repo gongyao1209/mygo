@@ -9,8 +9,8 @@ func Get(item string) string {
 
 	conf["local"] = map[string]string{
 		"Port": "9002",
-		"Mysql": "root:S12p_w99Q@tcp(139.198.5.192:3306)/xiangxin0828?charset=utf8",
-		"Redis": "119.254.108.200:6379",
+		"Mysql": "root:******@tcp(139.198.5.192:3306)/xiangxin0828?charset=utf8",
+		"Redis": "119:6379",
 	}
 
 	return  conf[env][item]
