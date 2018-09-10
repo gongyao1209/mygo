@@ -1,9 +1,12 @@
 package main
 
 import (
+	"context"
 	"fmt"
 	"github.com/gin-gonic/gin"
+	"math/rand"
 	"net/http"
+	"time"
 )
 
 func func1(c *gin.Context)  {
@@ -40,6 +43,9 @@ func func3(c *gin.Context)  {
 
 func main() {
 
+	//fanOut()
+	//selectDrop()
+	withTimeout()
 	//Db := db.Get()
 	//defer Db.Close()
 	//
@@ -62,20 +68,120 @@ func main() {
 	//}
 	////fmt.Printf("value %v", value)
 
-	router := gin.Default()
+	//var arr []int
+	//
+	//for i := 1; i < 10; i++ {
+	//	arr = append(arr, i)
+	//}
+	//
+	//var wg sync.WaitGroup
+	//
+	////a := make(chan int)
+	////b := make(chan int)
+	//
+	//
+	//for j := 1; j <= 100; j++ {
+	//	wg.Add(1)
+	//	go func() {
+	//		defer wg.Done()
+	//		test.GetSum(arr)
+	//	}()
+	//}
+	//
+	//wg.Add(1)
+	//go func() {
+	//	defer wg.Done()
+	//	go test.GetSum2(arr)
+	//}()
+	//
+	//wg.Wait()
 
-	router.GET("/test1", func1)
-	router.POST("/test2", func2)
-	router.POST("/test3", func3)
-
-	//url 族群
-	group1 := router.Group("/g1")
-	group1.GET("/test4", func1)
-
-	//重定向
-	router.GET("test5", func(c *gin.Context) {
-		c.Redirect(http.StatusMovedPermanently, "https://www.baidu.com/")
-	})
-
-	router.Run(":8888")
+	//var sum1 int
+	//var sum2 int
+	//<- a
+	//<- b
+	//
+	//fmt.Printf("Sum1:%d, Sum2:%d, all:%d\n", sum1, sum2, sum1 + sum2)
+	//router := gin.Default()
+	//
+	//router.GET("/test1", func1)
+	//router.POST("/test2", func2)
+	//router.POST("/test3", func3)
+	//
+	////url 族群
+	//group1 := router.Group("/g1")
+	//group1.GET("/test4", func1)
+	//
+	////重定向
+	//router.GET("test5", func(c *gin.Context) {
+	//	c.Redirect(http.StatusMovedPermanently, "https://www.baidu.com/")
+	//})
+	//
+	//router.Run(":8888")
 }
+
+
+func fanOut() {
+	emps := 20
+	ch := make(chan string, emps)
+
+	for e := 0; e < emps; e++ {
+		go func() {
+			time.Sleep(time.Duration(rand.Intn(200)) * time.Millisecond)
+			ch <- "paper"
+			}()
+	}
+
+	for emps > 0 {
+		p := <-ch
+		fmt.Println(p)
+		emps--
+		}
+	}
+
+
+func selectDrop() {
+	const cap = 5
+
+	ch := make(chan string, cap)
+
+	go func() {
+		for p := range ch {
+			fmt.Println("employee : received :", p)
+		}
+		}()
+
+	const work = 20
+	for w := 0; w < work; w++ {
+		select {
+			case ch <- "paper":
+				fmt.Println("manager : send ack")
+			default:
+				fmt.Println("manager : drop")
+			}
+		}
+	close(ch)
+
+	}
+
+
+func withTimeout() {
+	duration := 50 * time.Millisecond
+	ctx, cancel := context.WithTimeout(context.Background(), duration)
+	defer cancel()
+
+	ch := make(chan string, 1)
+
+	go func() {
+		time.Sleep(time.Duration(rand.Intn(100)) * time.Millisecond)
+		ch <- "paper"
+		}()
+
+	select {
+		case p := <-ch:
+			fmt.Println("work complete", p)
+
+		case <-ctx.Done():
+			fmt.Println("moving on")
+		}
+	}
