@@ -81,3 +81,89 @@ func GetSum2(arr []int) int {
 	fmt.Printf("GetSum2: %d\n", sum)
 	return sum
 }
+
+//------值传递
+type person struct {
+	name string
+	age int
+	isDead bool
+}
+
+func TestChuandi()  {
+	p1 := person{name:"gongyao", age:20}
+	p2 := person{name:"wanghui", age:50}
+	p3 := person{name:"yaoke", age:100}
+	//
+	//people := []person{p1, p2, p3}
+	//whoIsDead1_(people)
+	//
+	//for _, p := range people {
+	//	if p.isDead {
+	//		fmt.Printf("Who Is dead? %s\n", p.name)
+	//	}
+	//}
+
+
+	//people2 := make([]*person, 0)
+	//people2 = append(people2, &p1)
+	//people2 = append(people2, &p2)
+	//people2 = append(people2, &p3)
+	//whoIsDead2(people2)
+	//for _, p := range people2 {
+	//	if p.isDead {
+	//		fmt.Printf("Who Is dead? %s\n", p.name)
+	//	}
+	//}
+
+	m_people := make(map[string]*person)
+	m_people[p1.name] = &p1
+	m_people[p2.name] = &p2
+	m_people[p3.name] = &p3
+	whoIsDead_m1(m_people)
+
+	for _, p := range m_people {
+		if p.isDead {
+			fmt.Printf("Who Is dead? %s\n", p.name)
+		}
+	}
+
+	//m2_people := map[string]person{
+	//	p1.name : p1,
+	//	p2.name : p2,
+	//	p3.name : p3,
+	//}
+	
+}
+
+func whoIsDead_m1(persons map[string]*person)  {
+	for _, per := range persons {
+		if per.age < 50 {
+			//per
+			persons[per.name].isDead = true
+		}
+	}
+}
+
+func whoIsDead1(people []person)  {
+	for _, p := range people {
+		if p.age < 50 {
+			p.isDead = true
+		}
+	}
+}
+
+func whoIsDead1_(people []person)  {
+	for i := 0; i < len(people); i++ {
+		if people[i].age < 50 {
+			people[i].isDead = true
+		}
+	}
+}
+
+func whoIsDead2(people []*person)  {
+	for _, p := range people { //和 php foreach as 异曲同工，都是 复制
+		if p.age < 50 {
+			p.isDead = true
+		}
+	}
+}

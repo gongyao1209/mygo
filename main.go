@@ -2,9 +2,11 @@ package main
 
 import (
 	"context"
+	"errors"
 	"fmt"
 	"github.com/gin-gonic/gin"
 	"math/rand"
+	"mygo/test"
 	"net/http"
 	"time"
 )
@@ -43,9 +45,43 @@ func func3(c *gin.Context)  {
 
 func main() {
 
+	//var m map[string]string
+
+	//m := make(map[string]string)
+	//m["a"] = "b"
+	//if m == nil {
+	//	fmt.Println("m is empty")
+	//}
+	//fmt.Printf("m is : %v\n", m)
+	//
+	//s := make([]string, 1)
+	//s[0] = "1234"
+	//s = append(s, "2345")
+	//fmt.Printf("s is : %v\n", s)
+	//
+	//a := [1]string{"12345"}
+	//a[0] = "1234"
+	//fmt.Printf("a is : %v\n", a)
+
+
+	//i := 2
+	//
+	//if i > 1 {
+	//	//var err error
+	//	i, err := doDivision(i, 2)
+	//	if err != nil {
+	//		panic(err) //捕获异常
+	//	}
+	//	fmt.Println(i)
+	//}
+	//
+	//fmt.Println(i)
+
+	test.TestChuandi()
+
 	//fanOut()
 	//selectDrop()
-	withTimeout()
+	//withTimeout()
 	//Db := db.Get()
 	//defer Db.Close()
 	//
@@ -185,3 +221,11 @@ func withTimeout() {
 			fmt.Println("moving on")
 		}
 	}
+
+func doDivision(x, y int) (int, error) {
+	if y == 0 {
+		return 0, errors.New("Input is invalid")
+	}
+
+	return x/y, nil
+}
