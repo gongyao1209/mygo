@@ -77,7 +77,9 @@ func main() {
 	//
 	//fmt.Println(i)
 
-	test.TestChuandi()
+	//test.TestChuandi()
+
+	test.FileWrite()
 
 	//fanOut()
 	//selectDrop()
