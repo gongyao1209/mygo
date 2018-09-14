@@ -86,10 +86,16 @@ func BufioRead(name string)  {
 //================================================================================================
 func FileWrite()  {
 	name := "./tempdir/testwritefile.txt"
-	content := "报君黄金台上意, \n提携玉龙为君死7"
+	content := "报君黄金台上意, 提携玉龙为君死\n"
+	write1Ioutil(name, content)
 
+	content = "hello, world\n"
+	write2FileWrite(name, content)
+
+	content = "hello, gongyao\n"
 	write3WithIo(name, content)
-	//write2FileWrite(name, content)
+
+	write4WithBufio(name, content)
 }
 
 //使用ioutil包进行文件写入
