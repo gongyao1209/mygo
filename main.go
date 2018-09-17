@@ -45,6 +45,30 @@ func func3(c *gin.Context)  {
 
 func main() {
 
+	//var wg sync.WaitGroup
+	//a["name"] = "gongyao"
+
+	//str := "gongyao"
+	//a := map[string]*string{
+	//	"name":&str,
+	//}
+	//
+	//str = "yaoke"
+	//a["age"] = "a"
+
+	a := make(map[string]string)
+
+	a["name"] = "gongyao"
+	a["age"] = "20"
+
+	fmt.Println(a)
+
+	a["age"] = "19"
+
+	fmt.Println(a)
+
+	delete(a, "age")
+	fmt.Println(a)
 	//var m map[string]string
 
 	//m := make(map[string]string)
