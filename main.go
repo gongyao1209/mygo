@@ -52,8 +52,10 @@ type testStruct1 struct {
 
 func main() {
 
+	fmt.Println(test.GetNum(2))
+	//test.GetNum(2)
 	//test1()
-	test2()
+	//test2()
 
 	return
 	//var arr *[10]int
