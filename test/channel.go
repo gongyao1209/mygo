@@ -68,11 +68,19 @@ func GetNum(number int64) int64 {
 	fmt.Println(b)  //信道 和 goroutine 的 关系 最好是一一对应
 
 	return 1
-	//fmt.Println(a)
-	//for i := 0; i < max; i++ {
-	//	a := <-ch
-	//	fmt.Println(a)
-	//}
-	//
-	//return a
+}
+
+
+func TestChannel(ch chan int, max int)  {
+	for i:= 0; i < max ; i++ {
+		go func() {
+			GetNum(10)
+			fmt.Println(i)
+			ch <- 1
+		}()
+	}
+
+	for i:= 0; i < max ; i++ {
+		<-ch
+	}
 }
