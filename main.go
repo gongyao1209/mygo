@@ -8,7 +8,9 @@ import (
 	"math/rand"
 	"mygo/test"
 	"net/http"
+	"sync"
 	"time"
+	"unsafe"
 )
 
 func func1(c *gin.Context)  {
@@ -43,8 +45,41 @@ func func3(c *gin.Context)  {
 	}
 }
 
+type testStruct1 struct {
+	Name string
+	age int
+}
+
 func main() {
 
+	//test1()
+	test2()
+
+	return
+	//var arr *[10]int
+	//var slince []int
+
+	slince := make([]int, 0)
+	fmt.Println(slince, " ", unsafe.Sizeof(slince))
+
+	var slince1 *[]int
+	fmt.Println(slince1, " ", unsafe.Sizeof(slince1))
+
+
+	//var map1 *int16
+	//map1 := make(map[int]int)
+
+
+	//slince = append(slince, 1)
+	//slince = append(slince, 2)
+
+	//arr2 := [10]int{1, 2, 3, 4, 5, 6, 7, 8, 9}
+	//arr = &arr2
+
+	//fmt.Println(slince)
+	//fmt.Println(map1)
+	//fmt.Println(unsafe.Sizeof(map1))
+	return
 	//var wg sync.WaitGroup
 	//a["name"] = "gongyao"
 
@@ -56,19 +91,6 @@ func main() {
 	//str = "yaoke"
 	//a["age"] = "a"
 
-	a := make(map[string]string)
-
-	a["name"] = "gongyao"
-	a["age"] = "20"
-
-	fmt.Println(a)
-
-	a["age"] = "19"
-
-	fmt.Println(a)
-
-	delete(a, "age")
-	fmt.Println(a)
 	//var m map[string]string
 
 	//m := make(map[string]string)
@@ -182,6 +204,53 @@ func main() {
 	//router.Run(":8888")
 }
 
+func test1()  {
+	ch := make(chan string)
+	defer close(ch)
+
+	go func() {
+		time.Sleep(2 * time.Second)
+		ch <- "paper"
+	}()
+
+	go func() {
+		time.Sleep(1 * time.Second)
+		ch <- "paper2"
+	}()
+
+	//time.Sleep(2 * time.Second)
+	p :=<- ch
+	fmt.Println(p)
+}
+
+func test2()  {
+	var ch chan int
+	ch = make(chan int, 5)
+
+	//defer close(ch)
+
+	wg := sync.WaitGroup{}
+
+	wg.Add(1)
+	go func() {
+		defer wg.Done()
+		for p := range ch {
+			fmt.Println("employee: received : ", p)
+		}
+	}()
+
+	for i:= 0; i < 20; i++ {
+		select {
+		case ch <- rand.Int():
+			fmt.Println("manager: channel add ok")
+		default:
+			fmt.Println("manager: channel add error")
+		}
+	}
+
+	close(ch) //手动关闭 信道
+	wg.Wait()
+}
 
 func fanOut() {
 	emps := 20
