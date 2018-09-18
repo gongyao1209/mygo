@@ -51,8 +51,21 @@ type testStruct1 struct {
 }
 
 func main() {
+	ch := make(chan int, 100)
 
-	fmt.Println(test.GetNum(2))
+	for i:= 0; i < 100 ; i++ {
+		go func() {
+			test.GetNum(10)
+			fmt.Println(i)
+			ch <- 1
+		}()
+	}
+
+	for i:= 0; i < 100 ; i++ {
+		<-ch
+	}
+
+	//fmt.Println(test.GetNum(10))
 	//test.GetNum(2)
 	//test1()
 	//test2()
