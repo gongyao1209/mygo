@@ -167,3 +167,50 @@ func whoIsDead2(people []*person)  {
 		}
 	}
 }
+
+
+//go的测试
+
+type task struct {
+
+}
+
+type handle = int
+
+func Test1()  {
+	var var1 int = 1
+	var var2 handle = 2
+
+	//types(var1)
+	//types(var2)
+	a := func() {
+		fmt.Println("aaaa")
+	}
+
+	types1(a)
+	types1(var1)
+	types1(var2)
+}
+
+//func types(val interface{})  {
+//	switch v := val.(type) {
+//	case int:
+//		fmt.Println(fmt.Sprintf("I am an int : %d", v))
+//	case handle:
+//		fmt.Println(fmt.Sprintf("I am an handle : %d", v))
+//	}
+//}
+
+func types1(val interface{})  {
+	switch v := val.(type) {
+	case int:
+		fmt.Println(fmt.Sprintf("I am an int : %d", v))
+	}
+
+	switch v := val.(type) {
+	case handle:
+		fmt.Println(fmt.Sprintf("I am an handle : %d", v))
+	case func():
+		fmt.Println(fmt.Sprintf("I am an function : %d", v))
+	}
+}
