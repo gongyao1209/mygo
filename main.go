@@ -4,46 +4,45 @@ import (
 	"context"
 	"errors"
 	"fmt"
-	"github.com/gin-gonic/gin"
+	//"github.com/gin-gonic/gin"
 	"math/rand"
 	"mygo/test"
-	"net/http"
 	"sync"
 	"time"
 	"unsafe"
 )
 
-func func1(c *gin.Context)  {
-	name := c.Query("name")
-	pwd := c.Query("pwd")
-
-	c.String(http.StatusOK, "参数：name:%s, pwd:%s\n", name, pwd)
-}
-
-func func2(c *gin.Context)  {
-	arr, err := c.GetRawData()
-	if err != nil {
-
-	}
-	c.String(http.StatusOK, "name: %v\n", arr)
-}
-
-type User struct {
-	Name string `form:"name" json:"name" binding:"required"`
-	Pwd string `form:"pwd" json:"pwd" binding:"required"`
-}
-
-
-func func3(c *gin.Context)  {
-	var json User
-
-	if c.BindJSON(&json) == nil {
-		fmt.Println(json.Name)
-		c.JSON(http.StatusOK, gin.H{"name":json.Name, "pwd":json.Pwd})
-	} else {
-		c.JSON(404, gin.H{"JSON=== status": "binding Json Error!"})
-	}
-}
+//func func1(c *gin.Context)  {
+//	name := c.Query("name")
+//	pwd := c.Query("pwd")
+//
+//	c.String(http.StatusOK, "参数：name:%s, pwd:%s\n", name, pwd)
+//}
+//
+//func func2(c *gin.Context)  {
+//	arr, err := c.GetRawData()
+//	if err != nil {
+//
+//	}
+//	c.String(http.StatusOK, "name: %v\n", arr)
+//}
+//
+//type User struct {
+//	Name string `form:"name" json:"name" binding:"required"`
+//	Pwd string `form:"pwd" json:"pwd" binding:"required"`
+//}
+//
+//
+//func func3(c *gin.Context)  {
+//	var json User
+//
+//	if c.BindJSON(&json) == nil {
+//		fmt.Println(json.Name)
+//		c.JSON(http.StatusOK, gin.H{"name":json.Name, "pwd":json.Pwd})
+//	} else {
+//		c.JSON(404, gin.H{"JSON=== status": "binding Json Error!"})
+//	}
+//}
 
 type testStruct1 struct {
 	Name string
